@@ -5,8 +5,13 @@ import com.example.girl.service.GirlDao;
 import com.example.girl.service.GirlService;
 import com.example.girl.service.impl.GirlServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.List;
 
@@ -40,6 +45,14 @@ public class GirlController  {
 //        return list;
 
         //第一种方法，在dao中直接写动态查询，
-        return girlDao.getGirl(age,cm);
+       return girlDao.getGirl(age,cm);
+
+
+    }
+
+    @RequestMapping("/fenye")
+    public Page<Girl> fenye(Integer page,Integer pageSize){
+        Pageable pageable = new PageRequest(page,pageSize,Sort.Direction.ASC,"id");
+        return girlService.findAll(pageable);
     }
 }
